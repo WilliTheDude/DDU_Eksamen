@@ -1,114 +1,103 @@
-import speech_recognition as sr
-import pyttsx3  # This library converts text into speech
-import datetime  # takes the current time of the your time zone and displays it
-import wikipedia  # takes the the results that is found on wikipedia
-import webbrowser  # allows the assistant to open a new browser
-import time  # sets a timer for the program for timeout
+import speech_recognition as sr  # makes sure that Bagley can understand what you're saying
+import pyttsx3  # Enables text to speech so that Bagley can respond on your commands
+import datetime  # Enables Bagley to get the real time and date
+import wikipedia  # allows the program to search wikipedia for information's
+import time  # Enables to set at timer for a quick break
+import random
 
-# Sapi5 is a Microsoft Text to speech engine used for voice recognition
-engine = pyttsx3.init()  # creating the object
+# Initialize the pyttsx3 library
+engine = pyttsx3.init()
+voices = engine.getProperty('voices')  # gets the voices for Bagley
 
-voices = engine.getProperty('voices')
-
+# Bagley's voice
 for voice in voices:
-    print(voice)
+    print(voice)  # prints all the voice to the terminal
     if voice.languages[0] == 'en_GB':
         engine.setProperty('voice', voice.id)
         break
 
 
-# This is the speak function which allow pur voice assistant to reply to your commands
+# This function enables Bagley to speak
 def speak(text):
     engine.say(text)
     engine.runAndWait()
 
 
-# This function will greet the user depending on the hour of the day
+# This function allows Bagley to greet the user
 def greetUser():
-    hour = datetime.datetime.now().hour  # Gets the current time of the day and gives a greeting
+    hour = datetime.datetime.now().hour  # gets the current hour
 
-    if 0 <= hour < 12:
-        if hour >= 0 or hour < 9:
-            speak("Good morning, did you sleep well?")
-            print("Good morning, did you sleep well?")
-        else:
-            speak("Good morning Sir")
-            print("Good morning Sir")
+    # This if statements checks the time and gives a shutting response
+    if 0 <= hour < 10:
+        print("Good morning, did you sleep well?\n Hello, how may i help you")
+        speak("Good morning, did you sleep well?")
+        speak("Hello, how may i help you")
+
+    elif 10 <= hour < 12:
+        print("Good morning\n Hello, how may i help you")
+        speak("Good morning")
+        speak("Hello, how may i help you")
+
     elif 12 <= hour < 18:
-        speak("Good afternoon what can i help you with?")
-        print("Good afternoon what can i help you with?")
+        print("Good afternoon\n Hello, how may i help you")
+        speak("Good afternoon")
+        speak("Hello, how may i help you")
+
     else:
-        speak("Good evening what can i do for you?")
-        print("Good evening what can i do for you?")
+        print("Good evening\n Hello, how may i help you")
+        speak("Good evening")
+        speak("Hello, how may i help you")
 
 
-# This function will take the commands you give it
+# This function enables Bagley to take commands
 def takeCommand():
     recognition = sr.Recognizer()
 
     with sr.Microphone() as source:
-        print('Listening...')
-        audio = recognition.listen(source)
+        print("Listening....")
+        audio = recognition.listen(source)  # uses the function listen from speech_recognition library
 
-        # this try-statement will help you the program under stand what the user are asking/saying
-        try:
-            statement = recognition.recognize_google(audio, language='en_GB')
-            print(f"User said: {statement}\n")
+    # this try function will help Bagley understand what the user are saying
+    try:
+        statement = recognition.recognize_google(audio, language='en_GB')
+        print(f"{statement}\n")
 
-        # makes sure that the occurrence of a runtime error will be minimized
-        except Exception as e:
-            speak("Pardon me, please say that again")
-            return "None"
-        return statement
+    # This exception will prevent run time errors
+    except Exception as e:
+        speak("Pardon me, can you please say that again?")
+        return "None"
+    return statement
 
 
-# booting the assistant
+# The things Bagley shall do on start up
 print("Loading your personal assistant Bagley")
-speak("Loading your personal assistant Bagley")
-greetUser()  # calls the greetUser function
+greetUser()
 
-# This is the main function of the programme
+# Checks if the name of the file equals the main file.
 if __name__ == '__main__':
 
     while True:
-        speak('Tell me how i can help you now')
-        statement = takeCommand().lower()
+        statement = takeCommand().lower()  # Allows Bagley to hear what you're saying
+        shutDownBagley = False
 
-        # Checks if the statement holds anything
+        # Checks if the statement variable is empty, if empty Bagley just continues listening
         if statement == 0:
             continue
 
-        if "goodbye" in statement or "ok bye" in statement or "stop" in statement or "okay bye" in statement:
-            speak("Okay good bye see you soon")
-            print("Okay good bye see you soon")
-            break
+        # goodbye respond
+        # Opens the text fill containing all the goodbye responses
+        with open('Data/goodByeSayings.txt') as goodBye:
+            lines = goodBye.readlines() # Stores the responses in a list
 
-        # skill 1 - fetching data from wikipedia
-        if 'wikipedia' in statement:
-            speak('Searching Wikipedia....')
-            statement = statement.replace('wikipedia', "")
-            result = wikipedia.summary(statement, sentences = 3)  # gives the result with 3 lines of text
-            speak("According to Wikipedia")
-            print(result)
-            speak(result)
+            # loops though every line in the document
+            for line in lines:
+                # Checks if the what you say matches with one of the lines in the document
+                if line.find(statement):
+                    speak("Goodbye, see you later")
+                    print("Goodbye, see you later")
+                    shutDownBagley = True
+                    break
 
-        # Accessing the web browser, google chrome, g-mail and YouTube
-        elif 'open youtube' in statement:
-            webbrowser.open_new_tab("https://www.youtube.com")
-            speak("YouTube is now open")
-            time.sleep(5)
-
-        elif 'open google' in statement:
-            webbrowser.open_new_tab("https://www.google.com")
-            speak("Google is now open")
-            time.sleep(5)
-
-        elif 'open g-mail' in statement or 'open mail' in statement:
-            webbrowser.open_new_tab("https://www.gmail.com")
-            speak("Your mail er now open")
-
-        # Tell the time
-        elif 'what time is it' in statement or 'time' in statement or 'whats the current time' in statement:
-            strTime = datetime.datetime.now().strftiem("%H:%M")
-            speak(f"The time is {strTime}")
-
+            # Turns of Bagley
+            if shutDownBagley:
+                break
