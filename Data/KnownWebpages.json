@@ -1,0 +1,22 @@
+[
+	{
+		"name": "Google",
+		"link": "https://www.google.com/"
+	},
+	{
+		"name": "Youtube",
+		"link": "https://www.youtube.com/"
+	},
+	{
+		"name": "Netflix",
+		"link": "https://www.netflix.com/"
+	},
+	{
+		"name": "HBO",
+		"link": "https://hbonordic.com/"
+	},
+	{
+		"name": "Gmail",
+		"link": "https://mail.google.com/"
+	}
+]

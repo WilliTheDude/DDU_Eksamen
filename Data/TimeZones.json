@@ -1,0 +1,209 @@
+{
+	"Europe": [
+		{
+			"name": "belgium",
+			"capital": "Bruxelles"
+		},
+		{
+			"name": "Bulgarien",
+			"capital": "Sofia"
+		},
+
+		{
+			"name": "Cyprus",
+			"capital": "Nicosia"
+		},
+
+		{
+			"name": "Denmark",
+			"capital": "Copenhagen"
+		},
+
+		{
+			"name": "Estonia",
+			"capital": "Tallinn"
+		},
+
+		{
+			"name": "Finland",
+			"capital": "Helsingfors"
+		},
+
+		{
+			"name": "France",
+			"capital": "Paris"
+		},
+
+		{
+			"name": "Greece",
+			"capital": "Athen"
+		},
+
+		{
+			"name": "Ireland",
+			"capital": "Dublin"
+		},
+
+		{
+			"name": "Italy",
+			"capital": "Rom"
+		},
+
+		{
+			"name": "Croatia",
+			"capital": "Zagreb"
+		},
+
+		{
+			"name": "Latvia",
+			"capital": "Riga"
+		},
+
+		{
+			"name": "Lithuania",
+			"capital": "Vilnius"
+		},
+
+		{
+			"name": "Taalta",
+			"capital": "Valletta"
+		},
+
+		{
+			"name": "The Netherlands",
+			"capital": "Amsterdam"
+		},
+
+		{
+			"name": "Austria",
+			"capital": "Wien"
+		},
+		{
+			"name": "Poland",
+			"capital": "Warsawa"
+		},
+
+		{
+			"name": "Portugal",
+			"capital": "Lissabon"
+		},
+
+		{
+			"name": "Romania",
+			"capital": "Bukarest"
+		},
+
+		{
+			"name": "Slovakia",
+			"capital": "Bratislava"
+		},
+
+		{
+			"name": "Slovenia",
+			"capital": "Ljubljana"
+		},
+
+		{
+			"name": "Spain",
+			"capital": "Madrid"
+		},
+
+		{
+			"name": "Czech Republic",
+			"capital": "Prag"
+		},
+
+		{
+			"name": "Luxembourg",
+			"capital": "Luxembourg"
+		},
+
+		{
+			"name": "England",
+			"capital": "London"
+		},
+
+		{
+			"name": "Germany",
+			"capital": "Berlin"
+		},
+
+		{
+			"name": "Norway",
+			"capital": "Oslo"
+		}
+	],
+
+	"America": [
+		{
+			"name": "Texas"
+		},
+
+		{
+			"name": "New York"
+		},
+
+		{
+			"name": "Los Angeles"
+		}
+	],
+
+	"Asia": [
+
+		{
+			"name": "Iran",
+			"capital": "Tehran"
+		},
+
+		{
+			"name": "China",
+			"capital": "Beijing"
+		},
+
+		{
+			"name": "Indonesia",
+			"capital": "Jakarta"
+		},
+
+		{
+			"name": "Japan",
+			"capital": "Tokyo"
+		},
+
+		{
+			"name": "Thailand",
+			"capital": "Bangkok"
+		},
+
+		{
+			"name": "South korea",
+			"capital": "Seoul"
+		},
+
+		{
+			"name": "Phillipines",
+			"capital": "Manila"
+		},
+
+		{
+			"name": "Singapore",
+			"capital": "Singapore"
+		},
+
+		{
+			"name": "Vietnam",
+			"capital": "Hanoi"
+		},
+
+		{
+			"name": "Hong Kong",
+			"capital": "Hong Kong"
+		},
+
+		{
+			"name": "Russia",
+			"capital": "Moskva"
+		}
+	]
+
+}

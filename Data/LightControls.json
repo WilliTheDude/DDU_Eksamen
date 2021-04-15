@@ -1,0 +1,181 @@
+{
+	"TurnOnLights": [
+		{
+			"command": "Turn on the lights"
+		},
+
+		{
+			"command": "Lights on"
+		},
+
+		{
+			"command": "Turn lights on"
+		},
+
+		{
+			"command": "Turn on lights"
+		}
+	],
+
+	"TurnOffLights": [
+		{
+			"command": "Turn off the lights"
+		},
+
+		{
+			"command": "Lights off"
+		},
+
+		{
+			"command": " Turn lights off"
+		},
+
+		{
+			"command": "Turn off lights"
+		}
+	],
+
+	"LightBulbOn1": [
+		{
+			"command": "Turn on first light"
+		},
+
+		{
+			"command": "First light on"
+		},
+
+		{
+			"command": "Turn first light on"
+		},
+
+		{
+			"command": "Turn on the first light"
+		}
+	],
+
+	"LightBulbOn2": [
+		{
+			"command": "Turn on second light"
+		},
+
+		{
+			"command": "Second light on"
+		},
+
+		{
+			"command": "Turn second light on"
+		},
+
+		{
+			"command": "Turn on the second light"
+		}
+	],
+
+	"LightBulbOn3": [
+		{
+			"command": "Turn on third light"
+		},
+
+		{
+			"command": "Third light on"
+		},
+
+		{
+			"command": "Turn third light on"
+		},
+
+		{
+			"command": "Turn on the third light"
+		}
+	],
+
+	"LightBulbOn4": [
+		{
+			"command": "Turn on fourth light"
+		},
+
+		{
+			"command": "Fourth light on"
+		},
+
+		{
+			"command": "Turn fourth light on"
+		},
+
+		{
+			"command":  "Turn on the fourth light"
+		}
+	],
+
+	"LightBulbOff1": [
+		{
+			"command": "Turn off first light"
+		},
+
+		{
+			"command": "First light off"
+		},
+
+		{
+			"command": "Turn first light off"
+		},
+
+		{
+			"command":  "Turn off the first light"
+		}
+	],
+
+	"LightBulbOff2": [
+		{
+			"command": "Turn off second light"
+		},
+
+		{
+			"command": "Second light off"
+		},
+
+		{
+			"command": "Turn second light off"
+		},
+
+		{
+			"command": "Turn off the second light"
+		}
+	],
+
+	"LightBulbOff3": [
+		{
+			"command": "Turn off third light"
+		},
+
+		{
+			"command": "Third light off"
+		},
+
+		{
+			"command": "Turn third light off"
+		},
+
+		{
+			"command":  "Turn off the third light"
+		}
+	],
+
+	"LightBulbOff4": [
+		{
+			"command": "Turn off fourth light"
+		},
+
+		{
+			"command": "Fourth light off"
+		},
+
+		{
+			"command": "Turn Fourth light off"
+		},
+
+		{
+			"command":  "Turn off the fourth light"
+		}
+	]
+}
