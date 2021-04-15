@@ -569,7 +569,6 @@ if __name__ == '__main__':
         statement = take_command(respond=False).lower()  # Allows Jarvis to hear what you're saying
 
         if statement and ("hey jarvis" in statement or "hello there" in statement):
-            print("Activate Jarvis")
             greet_user()
 
             statement = take_command().lower()
