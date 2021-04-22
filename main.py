@@ -13,9 +13,6 @@ import json  # This enables us to work with json files
 import webbrowser  # This enables us to open a web-browser in google
 from googlesearch import search  # Enables us to search google
 import time  # Enables to set at timer for a quick break
-import random
-
-from word2number import w2n  # allows us to convert word numbers to digit numbers
 
 
 class AudioFile:
@@ -48,9 +45,6 @@ class AudioFile:
         self.stream.close()
         self.p.terminate()
 
-    def __str__(self):
-        return self.file_name
-
 
 url = "https://app.resemble.ai/api/v1/projects/b9371d23/clips"
 headers = {
@@ -64,9 +58,6 @@ clips = {}
 # Load the possible clips files into a list
 for clip in response['pods']:
     title = clip['title'].replace(" ", "")
-
-    if "test" in title.lower():
-        continue
 
     if title not in clips:
         clips[title] = {
@@ -109,7 +100,6 @@ def get_clip(clip_name, clip_folder_name):
         return audio_file
     else:
         print(f"Error: The clip {clip_name} does not exist.")
-        return None
 
 
 audio_files = {}
@@ -119,66 +109,64 @@ if not os.path.isdir("AudioFiles"):
 
 # Number
 for i in range(1, 61):
-    audio_files["Number" + str(i)] = get_clip("Number" + str(i), "/Number")
+    audio_files["Number" + str(i)] = get_clip("Number" + str(i), "Number")
 
 # Greeting
 for i in range(1, 4):
-    audio_files["Greeting" + str(i)] = get_clip("Greeting" + str(i), "/Greeting")
+    audio_files["Greeting" + str(i)] = get_clip("Greeting" + str(i), "Greeting")
 
 # Offer Help
-audio_files["OfferHelp"] = get_clip("OfferHelp", "/OfferHelp")
+audio_files["OfferHelp"] = get_clip("OfferHelp", "OfferHelp")
 
 # Timer
-audio_files["TimerInvalidFormat"] = get_clip("TimerInvalidFormat", "/Timer")
-audio_files["TimerSet"] = get_clip("TimerSet", "/Timer")
-audio_files["And"] = get_clip("And", "/Timer")
-audio_files["Hour"] = get_clip("Hour", "/Timer")
-audio_files["Hours"] = get_clip("Hours", "/Timer")
-audio_files["Minute"] = get_clip("Minute", "/Timer")
-audio_files["Minutes"] = get_clip("Minutes", "/Timer")
-audio_files["Second"] = get_clip("Second", "/Timer")
-audio_files["Seconds"] = get_clip("Seconds", "/Timer")
+audio_files["TimerInvalidFormat"] = get_clip("TimerInvalidFormat", "Timer")
+audio_files["TimerSet"] = get_clip("TimerSet", "Timer")
+audio_files["And"] = get_clip("And", "Timer")
+audio_files["Hour"] = get_clip("Hour", "Timer")
+audio_files["Hours"] = get_clip("Hours", "Timer")
+audio_files["Minute"] = get_clip("Minute", "Timer")
+audio_files["Minutes"] = get_clip("Minutes", "Timer")
+audio_files["Second"] = get_clip("Second", "Timer")
+audio_files["Seconds"] = get_clip("Seconds", "Timer")
 
 # World Time
-audio_files["In"] = get_clip("In", "/WorldTime")
-audio_files["ItIs"] = get_clip("ItIs", "/WorldTime")
-audio_files["O"] = get_clip("O", "/WorldTime")
+audio_files["In"] = get_clip("In", "WorldTime")
+audio_files["ItIs"] = get_clip("ItIs", "WorldTime")
+audio_files["O"] = get_clip("O", "WorldTime")
 
-audio_files["Denmark"] = get_clip("Denmark", "/WorldTime")
-audio_files["Copenhagen"] = get_clip("Copenhagen", "/WorldTime")
-audio_files["England"] = get_clip("England", "/WorldTime")
-audio_files["London"] = get_clip("London", "/WorldTime")
+audio_files["Denmark"] = get_clip("Denmark", "WorldTime")
+audio_files["Copenhagen"] = get_clip("Copenhagen", "WorldTime")
+audio_files["England"] = get_clip("England", "WorldTime")
+audio_files["London"] = get_clip("London", "WorldTime")
 
 # Wikipedia
-audio_files["SearchingWikipedia"] = get_clip("SearchingWikipedia", "/Wikipedia")
-audio_files["AccordingtoWikipedia"] = get_clip("AccordingtoWikipedia", "/Wikipedia")
+audio_files["SearchingWikipedia"] = get_clip("SearchingWikipedia", "Wikipedia")
+audio_files["AccordingtoWikipedia"] = get_clip("AccordingtoWikipedia", "Wikipedia")
 
 # Open Webpage
-audio_files["OpeningWebpage"] = get_clip("OpeningWebpage", "/Webpage")
-audio_files["WebpageNotFound"] = get_clip("WebpageNotFound", "/Webpage")
+audio_files["OpeningWebpage"] = get_clip("OpeningWebpage", "Webpage")
+audio_files["WebpageNotFound"] = get_clip("WebpageNotFound", "Webpage")
 
 with open("Data/KnownWebpages.json") as known_webpages:
     webpage_names = json.load(known_webpages)
 
     for webpage in webpage_names:
-        audio_files[webpage['name'].replace(" ", "")] = get_clip(webpage['name'].replace(" ", ""), "/Webpage")
+        audio_files[webpage['name'].replace(" ", "")] = get_clip(webpage['name'].replace(" ", ""), "Webpage")
     known_webpages.close()
 
 # News
-audio_files["News"] = get_clip("News", "/News")
+audio_files["News"] = get_clip("News", "News")
 
 # Weather
-audio_files["CurrentWeather"] = get_clip("CurrentWeather", "/Weather")
-audio_files["Is"] = get_clip("Is", "/Weather")
-audio_files["WeatherTemperature"] = get_clip("WeatherTemperature", "/Weather")
-audio_files["WeatherDegrees"] = get_clip("WeatherDegrees", "/Weather")
-
+audio_files["CurrentWeather"] = get_clip("CurrentWeather", "Weather")
+audio_files["Is"] = get_clip("Is", "Weather")
+audio_files["WeatherTemperature"] = get_clip("WeatherTemperature", "Weather")
+audio_files["WeatherDegrees"] = get_clip("WeatherDegrees", "Weather")
 
 with open('Data/WeatherDescriptions.txt', 'r') as weather_descriptions:
     for description in weather_descriptions.readlines():
-        audio_files[description.strip().replace(" ", "")] = get_clip(description.strip().replace(" ", ""), "/Weather")
+        audio_files[description.strip().replace(" ", "")] = get_clip(description.strip().replace(" ", ""), "Weather")
     weather_descriptions.close()
-
 
 # Initialize the pyttsx3 library
 engine = pyttsx3.init()
@@ -205,7 +193,7 @@ def speak(text):
 
 # play audio file or use pyttsx3 instead if the audio file is not available
 def play_audio(audio_name, text):
-    if audio_name in audio_files:
+    if audio_name in audio_files and audio_files[audio_name]:
         audio_files[audio_name].play()
     else:
         speak(text)
@@ -218,10 +206,11 @@ def take_command(respond=True):
     with sr.Microphone() as source:
         recognition.adjust_for_ambient_noise(source)  # reduce noise
         print("Listening...")
-        audio = recognition.listen(source, timeout=6)  # uses the function listen from speech_recognition library
 
-        # this try function will help Jarvis understand what the user are saying
+        # this try function will help Jarvis understand what the user is saying
         try:
+            audio = recognition.listen(source,
+                                       timeout=6)  # uses the function to listen for audio from speech_recognition library
             input_statement = recognition.recognize_google(audio, language='en_GB')
             print(f"{input_statement}")
 
@@ -236,9 +225,7 @@ def take_command(respond=True):
                 speak("Pardon me, could you repeat that?")
             return ""
         except sr.WaitTimeoutError:
-            # speech was unintelligible
-            if respond:
-                speak("Pardon me, could you repeat that?")
+            # Time out
             return ""
         return input_statement
 
@@ -251,66 +238,67 @@ def greet_user():
     if 0 <= hour < 10:
         play_audio("Greeting1", "Good morning sir, I hope you slept well")
     elif 10 <= hour < 12:
-        play_audio("Greeting2", "Good morning sir")
+        play_audio("Greeting1", "Good morning sir")
     elif 12 <= hour < 18:
-        play_audio("Greeting3", "Good afternoon sir")
+        play_audio("Greeting2", "Good afternoon sir")
     else:
-        play_audio("Greeting4", "Good evening sir")
+        play_audio("Greeting3", "Good evening sir")
 
     time.sleep(0.4)
     print("How may I help you?")
-    play_audio("OfferHelp", "Good evening sir")
+    play_audio("OfferHelp", "How may I help you?")
 
 
 """
 # This section controls the light
-b = Bridge('192.168.0.205')
+b = Bridge('10.24.9.200')
 b.connect()
 b.get_api()
-"""
-"""
-def turnLightsOnAndOffControls(userLightCommand):
+
+
+def turn_lights_on_and_off_controls(user_light_command):
     with open('Data/LightControls.json', 'r') as lc:
         light_command = json.load(lc)
+
         # Turn lights on, commands
         for lightsOn in light_command['TurnOnLights']:
-            if lightsOn['command'].lower() in userLightCommand:
+            if lightsOn['command'].lower() in user_light_command:
                 b.set_group(1, 'on', True)
         # Turn lights off, commands
         for lightsOff in light_command['TurnOffLights']:
-            if lightsOff['command'].lower() in userLightCommand:
+            if lightsOff['command'].lower() in user_light_command:
                 b.set_group(1, 'on', False)
         # Turn on the firs light, command
         for firstLightOn in light_command['LightBulbOn1']:
-            if firstLightOn['command'].lower() in userLightCommand:
+            if firstLightOn['command'].lower() in user_light_command:
                 b.set_light(1, 'on', True)
         # Turn off the first light, command
         for firstLightOff in light_command['LightBulbOff1']:
-            if firstLightOff['command'].lower() in userLightCommand:
+            if firstLightOff['command'].lower() in user_light_command:
                 b.set_light(1, 'on', False)
         # Turn on the second light, command
         for secondLightOn in light_command['LightBulbOn2']:
-            if secondLightOn['command'].lower() in userLightCommand:
+            if secondLightOn['command'].lower() in user_light_command:
                 b.set_light(2, 'on', True)
         # Turn off the second light, command:
         for secondLightOff in light_command['LightBulbOff2']:
-            if secondLightOff['command'].lower() in userLightCommand:
+            if secondLightOff['command'].lower() in user_light_command:
                 b.set_light(2, 'on', False)
         # Turn on the third light, command
         for thirdLightOn in light_command['LightBulbOn3']:
-            if thirdLightOn['command'].lower() in userLightCommand:
+            if thirdLightOn['command'].lower() in user_light_command:
                 b.set_light(3, 'on', True)
         # Turn off teh third light, command
         for thirdLightOff in light_command['LightBulbOff3']:
-            if thirdLightOff['command'].lower() in userLightCommand:
+            if thirdLightOff['command'].lower() in user_light_command:
                 b.set_light(3, 'on', False)
         # Turn on the fourth light, command
         for fourthLighton in light_command['LightBulbOn4']:
-            if fourthLighton['command'].lower() in userLightCommand:
+            if fourthLighton['command'].lower() in user_light_command:
                 b.set_light(4, 'on', True)
         # Turn of the fourth light, command
         for fourthLightOff in light_command['LightBulbOff4']:
-            if fourthLightOff['command'].lower() in userLightCommand:
+            if fourthLightOff['command'].lower() in user_light_command:
                 b.set_light(4, 'on', False)
 """
 
@@ -416,7 +404,6 @@ def world_and_local_time(input_statement):
                         time.sleep(0.4)
                         play_audio(country['name'], country['name'])
 
-                        print("It's " + f"{current_time}")
                         current_time_list = current_time.split(":")
                         play_audio("ItIs", "")
 
@@ -436,15 +423,15 @@ def world_and_local_time(input_statement):
         current_time = datetime.datetime.now(country_time).strftime("%H:%M")
         print("It's " + f"{current_time}")
         current_time_list = current_time.split(":")
-        play_audio("ItIs", "")
+        play_audio("ItIs", "It's")
 
         for d in range(0, 2):
             hand_time = current_time_list[d][0].replace("0", "") + current_time_list[d][1]
 
             if d == 1 and len(hand_time) == 1:
-                play_audio("O", "")
+                play_audio("O", "O")
 
-            play_audio("Number" + hand_time, "")
+            play_audio("Number" + hand_time, hand_time)
 
 
 # This function will enable the user to search the wikipedia for answers
@@ -472,7 +459,7 @@ def open_webpages(input_statement):
     # Checks if a known webpage is in the JSON-file
     for known_webpage in webpage_names:
         if known_webpage['name'].lower() in input_statement:
-            play_audio("OpeningWebpage", "")
+            play_audio("OpeningWebpage", "Opening")
             play_audio(known_webpage['name'], known_webpage['name'])
             webbrowser.open_new_tab(known_webpage['link'])
             return
@@ -489,7 +476,7 @@ def open_webpages(input_statement):
 # Open a news site
 def news(input_statement):
     webbrowser.open_new_tab("https://www.dr.dk/")
-    play_audio("News", "Here are some news")
+    play_audio("News", "Here are some news from Dr.dk")
 
 
 # Tell the weather in a given capital
@@ -535,29 +522,37 @@ def weather(input_statement):
         print(("The current weather in {0} is {1} with a temperature of {2} " +
                "degrees Celsius").format(location, weather_description, temperature))
 
-        play_audio("CurrentWeather", "")
+        play_audio("CurrentWeather", "The current weather in")
         play_audio(city_name, city_name)
-        play_audio("Is", "")
+        play_audio("Is", "Is")
         play_audio(weather_description.replace(" ", ""), weather_description)
-        play_audio("WeatherTemperature", "")
+        play_audio("WeatherTemperature", "With a temperature of")
         play_audio("Number" + str(temperature), str(temperature))
-        play_audio("WeatherDegrees", "")
+        play_audio("WeatherDegrees", "Degrees Celsius")
 
 
 # Answer a mathematical or geographical question
 def math(input_statement):
     input_statement = input_statement[input_statement.index('what is'):]
+    print("Searching...")
+    speak("Searching...")
     app_id = "X8K53V-A95P9W6UVW"
     client = wolframalpha.Client(app_id)
     res = client.query(input_statement)
-    answer = next(res.results).text
 
-    print(answer)
+    try:
+        answer = next(res.results).text.split("\n")[0].split(",")[0]
+        answer = answer[answer.rfind("|")+2:].capitalize()
 
-    if answer.isdigit():
-        play_audio("Number" + answer, answer)
-    else:
-        play_audio(answer, answer)
+        print(answer)
+
+        if answer.isdigit():
+            play_audio("Number" + answer, answer)
+        else:
+            play_audio(answer, answer)
+
+    except StopIteration:
+        speak("I'm sorry but I don't know the answer to that question")
 
 
 # The things Jarvis shall do on start up
@@ -570,9 +565,15 @@ if __name__ == '__main__':
 
         if statement and ("hey jarvis" in statement or "hello there" in statement):
             greet_user()
-
             statement = take_command().lower()
+
+            while not statement:
+                statement = take_command().lower()
         else:
+            continue
+
+        if "nevermind" in statement or "nothing" in statement:
+            speak("Okay")
             continue
 
         goodbye = False
@@ -588,9 +589,6 @@ if __name__ == '__main__':
             speak("Okay, see you later")
             break
 
-        # Light controls
-        # turnLightsOnAndOffControls(statement)
-
         # Set timer
         if "timer" in statement:
             timer(statement)
@@ -598,6 +596,10 @@ if __name__ == '__main__':
         # Give the time
         elif "time" in statement:
             world_and_local_time(statement)
+
+        # Light controls
+        # elif "light" in statement:
+        # turn_lights_on_and_off_controls(statement)
 
         # Searching wikipedia for questions
         elif 'wikipedia' in statement:
@@ -620,3 +622,6 @@ if __name__ == '__main__':
         # Math
         elif 'what is' in statement or "what's" in statement:
             math(statement.replace("what's", "what is"))
+
+        else:
+            speak("I'm sorry but I can't help you with that")
