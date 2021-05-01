@@ -182,7 +182,7 @@ rate = engine.getProperty('rate')
 engine.setProperty('rate', 180)
 
 volume = engine.getProperty('volume')
-engine.setProperty('volume', 0.6)
+engine.setProperty('volume', 0.5)
 
 
 # This function enables Jarvis to speak
@@ -392,11 +392,12 @@ def world_and_local_time(input_statement):
             for country in time_zone[continent]:
                 if country['name'].lower() in input_statement or 'capital' in country and country[
                     'capital'].lower() in input_statement:
-                    country_capital = country['capital'] if 'capital' in country else ''
-                    time_string = continent + "/" + country_capital
+                    country_capital = country['capital'] if 'capital' in country else country['name']
+                    country_name = country['name'] if country['name'] != country_capital else continent
+                    time_string = continent + "/" + country_capital.replace(' ', '_')
                     country_time = pytz.timezone(time_string)
                     current_time = datetime.datetime.now(country_time).strftime("%H:%M")
-                    print("In " + f"{country_capital}, " + f"{country['name']}, it's " + f"{current_time}")
+                    print("In " + f"{country_capital}, " + f"{country_name}, it's " + f"{current_time}")
 
                     if country['name'] in audio_files or country_capital in audio_files:
                         play_audio("In", "")
@@ -415,7 +416,7 @@ def world_and_local_time(input_statement):
 
                             play_audio("Number" + hand_time, "")
                     else:
-                        speak("In " + f"{country_capital}, " + f"{country['name']}, it's " + f"{current_time}")
+                        speak("In " + f"{country_capital}, " + f"{country_name}, it's " + f"{current_time}")
                     return
 
         # If no country or capital was found in the input statement, simply tell the time of the default capital
@@ -531,19 +532,26 @@ def weather(input_statement):
         play_audio("WeatherDegrees", "Degrees Celsius")
 
 
+def isfloat(input_str):
+    try:
+        float(input_str)
+        return True
+    except ValueError:
+        return False
+
+
 # Answer a mathematical or geographical question
-def math(input_statement):
-    input_statement = input_statement[input_statement.index('what is'):]
+def math2(input_statement):
     print("Searching...")
     speak("Searching...")
-    app_id = "X8K53V-A95P9W6UVW"
-    client = wolframalpha.Client(app_id)
-    res = client.query(input_statement)
+
+    client = wolframalpha.Client("X8K53V-A95P9W6UVW")
+    res = client.query(input_statement[input_statement.index('what is'):])
 
     try:
-        answer = next(res.results).text.split("\n")[0].split(",")[0]
-        answer = answer[answer.rfind("|")+2:].capitalize()
-
+        answer = next(res.results).text.split("\n")[0].split(",")[0].replace('...', '')
+        answer = answer[answer.rfind("|") + 2:].capitalize() if answer.rfind("|") != -1 else answer
+        answer = answer[:answer.find('.') + 3] if isfloat(answer) and '.' in answer else answer
         print(answer)
 
         if answer.isdigit():
@@ -552,7 +560,50 @@ def math(input_statement):
             play_audio(answer, answer)
 
     except StopIteration:
-        speak("I'm sorry but I don't know the answer to that question")
+        input_statement = input_statement[input_statement.index('what is') + len('what is') + 1:]
+        res = client.query(input_statement)
+
+        try:
+            answer = next(res.results).text.split("\n")[0].split(",")[0].replace('...', '')
+            answer = answer[answer.rfind("|") + 2:].capitalize() if answer.rfind("|") != -1 else answer
+            answer = answer[:answer.find('.') + 3] if isfloat(answer) and '.' in answer else answer
+            print(answer)
+
+            if answer.isdigit():
+                play_audio("Number" + answer, answer)
+            else:
+                play_audio(answer, answer)
+
+        except StopIteration:
+            speak("I'm sorry but I don't know the answer to that question")
+
+
+def math(input_statement, second_try=False):
+    if not second_try:
+        print("Searching...")
+        speak("Searching...")
+
+    try:
+        client = wolframalpha.Client("X8K53V-A95P9W6UVW")
+        if not second_try:
+            res = client.query(input_statement[input_statement.index('what is'):])
+        else:
+            res = client.query(input_statement[input_statement.index('what is') + len('what is') + 1:])
+
+        answer = next(res.results).text.split("\n")[0].split(",")[0].replace('...', '')
+        answer = answer[answer.rfind("|") + 2:].capitalize() if answer.rfind("|") != -1 else answer
+        answer = answer[:answer.find('.') + 5] if isfloat(answer) and '.' in answer else answer
+        print(answer)
+
+        if answer.isdigit():
+            play_audio("Number" + answer, answer)
+        else:
+            play_audio(answer, answer)
+    except StopIteration:
+        if not second_try:
+            math(input_statement, second_try=True)
+        else:
+            speak("I'm sorry but I don't know the answer to that question")
 
 
 # The things Jarvis shall do on start up
@@ -605,10 +656,6 @@ if __name__ == '__main__':
         elif 'wikipedia' in statement:
             search_wikipedia(statement)
 
-        # Open a webpage
-        elif "open" in statement:
-            open_webpages(statement)
-
         # news
         elif 'news' in statement:
             news(statement)
@@ -622,6 +669,10 @@ if __name__ == '__main__':
         # Math
         elif 'what is' in statement or "what's" in statement:
             math(statement.replace("what's", "what is"))
+
+        # Open a webpage
+        elif "open" in statement:
+            open_webpages(statement)
 
         else:
             speak("I'm sorry but I can't help you with that")
