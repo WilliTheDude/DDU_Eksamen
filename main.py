@@ -541,43 +541,6 @@ def isfloat(input_str):
 
 
 # Answer a mathematical or geographical question
-def math2(input_statement):
-    print("Searching...")
-    speak("Searching...")
-
-    client = wolframalpha.Client("X8K53V-A95P9W6UVW")
-    res = client.query(input_statement[input_statement.index('what is'):])
-
-    try:
-        answer = next(res.results).text.split("\n")[0].split(",")[0].replace('...', '')
-        answer = answer[answer.rfind("|") + 2:].capitalize() if answer.rfind("|") != -1 else answer
-        answer = answer[:answer.find('.') + 3] if isfloat(answer) and '.' in answer else answer
-        print(answer)
-
-        if answer.isdigit():
-            play_audio("Number" + answer, answer)
-        else:
-            play_audio(answer, answer)
-
-    except StopIteration:
-        input_statement = input_statement[input_statement.index('what is') + len('what is') + 1:]
-        res = client.query(input_statement)
-
-        try:
-            answer = next(res.results).text.split("\n")[0].split(",")[0].replace('...', '')
-            answer = answer[answer.rfind("|") + 2:].capitalize() if answer.rfind("|") != -1 else answer
-            answer = answer[:answer.find('.') + 3] if isfloat(answer) and '.' in answer else answer
-            print(answer)
-
-            if answer.isdigit():
-                play_audio("Number" + answer, answer)
-            else:
-                play_audio(answer, answer)
-
-        except StopIteration:
-            speak("I'm sorry but I don't know the answer to that question")
-
-
 def math(input_statement, second_try=False):
     if not second_try:
         print("Searching...")
